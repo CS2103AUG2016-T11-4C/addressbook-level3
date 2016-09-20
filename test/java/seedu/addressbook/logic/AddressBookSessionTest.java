@@ -60,7 +60,7 @@ public class AddressBookSessionTest {
         final ReadOnlyPerson[] expected = { toAdd };
         addressBookSession.addPerson(toAdd);
         assertEquals(Arrays.asList(expected), addressBook.getAllPersons().immutableListView());
-        assertEquals(Collections.emptyList(), addressBookSession.getLastShownList());
+        assertEquals(Arrays.asList(expected), addressBookSession.getLastShownList());
     }
 
     @Test

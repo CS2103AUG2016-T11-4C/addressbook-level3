@@ -62,6 +62,9 @@ public class AddressBookSession {
 
     public void addPerson(Person toAdd) throws DuplicatePersonException {
         addressBook.addPerson(toAdd);
+        if (filter == null || filter.test(toAdd)) {
+            lastShownList.add(toAdd);
+        }
     }
 
     public ReadOnlyPerson getPerson(int index) throws IndexOutOfBoundsException {

@@ -153,13 +153,14 @@ public class LogicTest {
         Person toBeAdded = helper.adam();
         AddressBook expectedAB = new AddressBook();
         expectedAB.addPerson(toBeAdded);
+        final List<ReadOnlyPerson> expectedList = expectedAB.getAllPersons().immutableListView();
 
         // execute command and verify result
         assertCommandBehavior(helper.generateAddCommand(toBeAdded),
                               String.format(AddCommand.MESSAGE_SUCCESS, toBeAdded),
                               expectedAB,
                               false,
-                              Collections.emptyList());
+                              expectedList);
 
     }
 
