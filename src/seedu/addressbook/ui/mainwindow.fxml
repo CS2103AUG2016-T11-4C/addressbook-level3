@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox stylesheets="@/seedu/addressbook/ui/DarkTheme.css" alignment="center" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
@@ -11,6 +13,20 @@
 
         <TextField fx:id="commandInput" onAction="#onCommand" VBox.vgrow="NEVER">
         </TextField>
+
+        <TableView fx:id="personsView" VBox.vgrow="ALWAYS">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="personsIndexCol" text="#" sortable="false" maxWidth="640" />
+                <TableColumn fx:id="personsNameCol" text="Name" sortable="false" />
+                <TableColumn fx:id="personsPhoneCol" text="Phone" sortable="false" />
+                <TableColumn fx:id="personsEmailCol" text="Email" sortable="false" />
+                <TableColumn fx:id="personsAddressCol" text="Address" sortable="false" />
+                <TableColumn fx:id="personsTagsCol" text="Tags" sortable="false" />
+            </columns>
+        </TableView>
 
         <TextArea fx:id="outputConsole" editable="false" wrapText="true" VBox.vgrow="ALWAYS">
         </TextArea>
