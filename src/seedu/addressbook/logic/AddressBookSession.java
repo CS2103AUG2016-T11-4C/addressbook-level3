@@ -7,6 +7,7 @@ import java.util.List;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.person.UniquePersonList.DuplicatePersonException;
 
 /**
  * Represents the user's view of the address book.
@@ -35,5 +36,9 @@ public class AddressBookSession {
         // lastShownList may actually just be a view to this.lastShownList. To make sure there's no
         // clobbering of data, make a defensive copy.
         this.lastShownList = new ArrayList<>(lastShownList);
+    }
+
+    public void addPerson(Person toAdd) throws DuplicatePersonException {
+        addressBook.addPerson(toAdd);
     }
 }
