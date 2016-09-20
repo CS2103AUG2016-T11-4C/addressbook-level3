@@ -7,7 +7,6 @@ import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.parser.Parser;
 import seedu.addressbook.storage.StorageFile;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +17,7 @@ public class Logic {
 
 
     private StorageFile storage;
-    private AddressBook addressBook;
-
-    /** The list of person shown to the user most recently.  */
-    private List<? extends ReadOnlyPerson> lastShownList = Collections.emptyList();
+    private AddressBookSession addressBookSession;
 
     public Logic() throws Exception{
         setStorage(initializeStorage());
@@ -38,7 +34,11 @@ public class Logic {
     }
 
     void setAddressBook(AddressBook addressBook){
-        this.addressBook = addressBook;
+        this.addressBookSession = new AddressBookSession(addressBook);
+    }
+
+    public final AddressBookSession getAddressBookSession() {
+        return addressBookSession;
     }
 
     /**
@@ -51,17 +51,6 @@ public class Logic {
 
     public String getStorageFilePath() {
         return storage.getPath();
-    }
-
-    /**
-     * Unmodifiable view of the current last shown list.
-     */
-    public List<ReadOnlyPerson> getLastShownList() {
-        return Collections.unmodifiableList(lastShownList);
-    }
-
-    protected void setLastShownList(List<? extends ReadOnlyPerson> newList) {
-        lastShownList = newList;
     }
 
     /**
@@ -83,9 +72,9 @@ public class Logic {
      * @throws Exception if there was any problem during command execution.
      */
     private CommandResult execute(Command command) throws Exception {
-        command.setData(addressBook, lastShownList);
+        command.setData(addressBookSession);
         CommandResult result = command.execute();
-        storage.save(addressBook);
+        storage.save(addressBookSession.getAddressBook());
         return result;
     }
 
@@ -93,7 +82,7 @@ public class Logic {
     private void recordResult(CommandResult result) {
         final Optional<List<? extends ReadOnlyPerson>> personList = result.getRelevantPersons();
         if (personList.isPresent()) {
-            lastShownList = personList.get();
+            addressBookSession.setLastShownList(personList.get());
         }
     }
 }
