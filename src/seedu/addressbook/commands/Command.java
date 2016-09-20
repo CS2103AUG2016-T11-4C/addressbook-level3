@@ -1,7 +1,6 @@
 package seedu.addressbook.commands;
 
 import seedu.addressbook.common.Messages;
-import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.logic.AddressBookSession;
 
@@ -11,8 +10,6 @@ import java.util.List;
  * Represents an executable command.
  */
 public abstract class Command {
-    protected AddressBook addressBook;
-    protected List<? extends ReadOnlyPerson> relevantPersons;
     protected AddressBookSession addressBookSession;
 
     protected Command() {
@@ -38,7 +35,5 @@ public abstract class Command {
      */
     public void setData(AddressBookSession addressBookSession) {
         this.addressBookSession = addressBookSession;
-        this.addressBook = addressBookSession.getAddressBook();
-        this.relevantPersons = addressBookSession.getLastShownList();
     }
 }
