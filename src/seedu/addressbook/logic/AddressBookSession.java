@@ -57,4 +57,8 @@ public class AddressBookSession {
     public boolean containsPerson(ReadOnlyPerson key) {
         return addressBook.containsPerson(key);
     }
+
+    public void clear() {
+        addressBook.clear();
+    }
 }

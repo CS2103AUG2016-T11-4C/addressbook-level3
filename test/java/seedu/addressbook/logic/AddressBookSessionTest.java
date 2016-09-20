@@ -118,4 +118,16 @@ public class AddressBookSessionTest {
         final Person bob = generatePersonWithName("Bob");
         assertFalse(addressBookSession.containsPerson(bob));
     }
+
+    @Test
+    public void clear_clearsAllPersons() throws Exception {
+        final Person bob = generatePersonWithName("Bob");
+        final ReadOnlyPerson[] lastShownList = { bob };
+        addressBook.addPerson(bob);
+        addressBookSession.setLastShownList(Arrays.asList(lastShownList));
+        addressBookSession.clear();
+        assertEquals(Collections.emptyList(), addressBook.getAllPersons().immutableListView());
+        // lastShownList is untouched
+        assertEquals(Arrays.asList(lastShownList), addressBookSession.getLastShownList());
+    }
 }

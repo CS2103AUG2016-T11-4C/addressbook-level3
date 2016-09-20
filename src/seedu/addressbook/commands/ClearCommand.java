@@ -16,7 +16,7 @@ public class ClearCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        addressBook.clear();
+        addressBookSession.clear();
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }
