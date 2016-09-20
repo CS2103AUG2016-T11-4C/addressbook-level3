@@ -127,8 +127,8 @@ public class AddressBookSessionTest {
         addressBookSession.setLastShownList(Arrays.asList(lastShownList));
         addressBookSession.clear();
         assertEquals(Collections.emptyList(), addressBook.getAllPersons().immutableListView());
-        // lastShownList is untouched
-        assertEquals(Arrays.asList(lastShownList), addressBookSession.getLastShownList());
+        // lastShownList is also cleared
+        assertEquals(Collections.emptyList(), addressBookSession.getLastShownList());
     }
 
     @Test

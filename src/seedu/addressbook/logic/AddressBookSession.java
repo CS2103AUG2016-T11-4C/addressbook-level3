@@ -79,5 +79,6 @@ public class AddressBookSession {
 
     public void clear() {
         addressBook.clear();
+        lastShownList.clear();
     }
 }
