@@ -9,6 +9,8 @@ import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniquePersonList.DuplicatePersonException;
 
+import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
+
 /**
  * Represents the user's view of the address book.
  *
@@ -40,5 +42,9 @@ public class AddressBookSession {
 
     public void addPerson(Person toAdd) throws DuplicatePersonException {
         addressBook.addPerson(toAdd);
+    }
+
+    public ReadOnlyPerson getPerson(int index) throws IndexOutOfBoundsException {
+        return lastShownList.get(index - DISPLAYED_INDEX_OFFSET);
     }
 }

@@ -3,8 +3,6 @@ package seedu.addressbook.commands;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 
-import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
-
 /**
  * Shows details of the person identified using the last displayed index.
  * Private contact details are not shown.
@@ -29,7 +27,7 @@ public class ViewCommand extends Command {
     @Override
     public CommandResult execute() {
         try {
-            final ReadOnlyPerson target = relevantPersons.get(targetIndex - DISPLAYED_INDEX_OFFSET);
+            final ReadOnlyPerson target = addressBookSession.getPerson(targetIndex);
             if (!addressBook.containsPerson(target)) {
                 return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
             }

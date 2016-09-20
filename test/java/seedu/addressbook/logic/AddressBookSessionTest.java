@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -22,6 +24,9 @@ import static junit.framework.TestCase.assertEquals;
 public class AddressBookSessionTest {
     private AddressBook addressBook;
     private AddressBookSession addressBookSession;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void setup() {
@@ -54,5 +59,25 @@ public class AddressBookSessionTest {
         addressBookSession.addPerson(toAdd);
         assertEquals(Arrays.asList(expected), addressBook.getAllPersons().immutableListView());
         assertEquals(Collections.emptyList(), addressBookSession.getLastShownList());
+    }
+
+    @Test
+    public void getPerson_invalidIndex_throwsIndexOutOfBoundsException() {
+        thrown.expect(IndexOutOfBoundsException.class);
+        addressBookSession.getPerson(1);
+    }
+
+    @Test
+    public void getPerson_validIndex_returnsCorrectPerson() throws Exception {
+        final Person bob = generatePersonWithName("Bob");
+        final Person bill = generatePersonWithName("Bill");
+        addressBook.addPerson(bob);
+        addressBook.addPerson(bill);
+        // Note that the lastShownList reverses the order of persons, to test that
+        // addressBookSession uses the indexes of the lastShownList
+        ReadOnlyPerson[] lastShownList = { bill, bob };
+        addressBookSession.setLastShownList(Arrays.asList(lastShownList));
+        assertEquals(bill, addressBookSession.getPerson(1));
+        assertEquals(bob, addressBookSession.getPerson(2));
     }
 }
