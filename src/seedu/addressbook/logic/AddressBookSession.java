@@ -74,6 +74,7 @@ public class AddressBookSession {
     public void removePerson(int index) throws IndexOutOfBoundsException, PersonNotFoundException {
         final ReadOnlyPerson target = getPerson(index);
         addressBook.removePerson(target);
+        lastShownList.remove(index - DISPLAYED_INDEX_OFFSET);
     }
 
     public boolean containsPerson(ReadOnlyPerson key) {

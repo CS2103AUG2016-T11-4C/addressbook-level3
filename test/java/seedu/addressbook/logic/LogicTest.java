@@ -353,9 +353,11 @@ public class LogicTest {
         Person p3 = helper.generatePerson(3, true);
 
         List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
+        List<Person> twoPersons = new ArrayList<>(threePersons);
 
         AddressBook expectedAB = helper.generateAddressBook(threePersons);
         expectedAB.removePerson(p2);
+        twoPersons.remove(1);
 
 
         helper.addToAddressBook(addressBook, threePersons);
@@ -365,7 +367,7 @@ public class LogicTest {
                                 String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, p2),
                                 expectedAB,
                                 false,
-                                threePersons);
+                                twoPersons);
     }
 
     @Test

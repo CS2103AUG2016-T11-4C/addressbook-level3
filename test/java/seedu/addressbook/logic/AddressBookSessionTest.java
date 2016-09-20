@@ -102,8 +102,8 @@ public class AddressBookSessionTest {
         addressBookSession.removePerson(2);
         final ReadOnlyPerson[] expectedAB = { bill };
         assertEquals(Arrays.asList(expectedAB), addressBook.getAllPersons().immutableListView());
-        // lastShownList is untouched
-        assertEquals(Arrays.asList(lastShownList), addressBookSession.getLastShownList());
+        // bob is also removed from lastShownList
+        assertEquals(Arrays.asList(expectedAB), addressBookSession.getLastShownList());
     }
 
     @Test
