@@ -20,6 +20,8 @@ import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.data.tag.UniqueTagList;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AddressBookSessionTest {
     private AddressBook addressBook;
@@ -102,5 +104,18 @@ public class AddressBookSessionTest {
         assertEquals(Arrays.asList(expectedAB), addressBook.getAllPersons().immutableListView());
         // lastShownList is untouched
         assertEquals(Arrays.asList(lastShownList), addressBookSession.getLastShownList());
+    }
+
+    @Test
+    public void containsPerson_doesContainsPerson_returnsTrue() throws Exception {
+        final Person bob = generatePersonWithName("Bob");
+        addressBook.addPerson(bob);
+        assertTrue(addressBookSession.containsPerson(bob));
+    }
+
+    @Test
+    public void containsPerson_doesNotContainsPerson_returnsFalse() throws Exception {
+        final Person bob = generatePersonWithName("Bob");
+        assertFalse(addressBookSession.containsPerson(bob));
     }
 }

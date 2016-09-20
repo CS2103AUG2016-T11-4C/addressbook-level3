@@ -53,4 +53,8 @@ public class AddressBookSession {
         final ReadOnlyPerson target = getPerson(index);
         addressBook.removePerson(target);
     }
+
+    public boolean containsPerson(ReadOnlyPerson key) {
+        return addressBook.containsPerson(key);
+    }
 }

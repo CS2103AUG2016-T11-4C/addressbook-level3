@@ -28,7 +28,7 @@ public class ViewAllCommand extends Command {
     public CommandResult execute() {
         try {
             final ReadOnlyPerson target = addressBookSession.getPerson(targetIndex);
-            if (!addressBook.containsPerson(target)) {
+            if (!addressBookSession.containsPerson(target)) {
                 return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
             }
             return new CommandResult(String.format(MESSAGE_VIEW_PERSON_DETAILS, target.getAsTextShowAll()));
