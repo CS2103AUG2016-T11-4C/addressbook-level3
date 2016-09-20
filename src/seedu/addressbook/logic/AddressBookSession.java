@@ -8,6 +8,7 @@ import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniquePersonList.DuplicatePersonException;
+import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 
 import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
 
@@ -46,5 +47,10 @@ public class AddressBookSession {
 
     public ReadOnlyPerson getPerson(int index) throws IndexOutOfBoundsException {
         return lastShownList.get(index - DISPLAYED_INDEX_OFFSET);
+    }
+
+    public void removePerson(int index) throws IndexOutOfBoundsException, PersonNotFoundException {
+        final ReadOnlyPerson target = getPerson(index);
+        addressBook.removePerson(target);
     }
 }

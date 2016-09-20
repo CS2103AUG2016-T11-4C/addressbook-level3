@@ -28,7 +28,7 @@ public class DeleteCommand extends Command {
     public CommandResult execute() {
         try {
             final ReadOnlyPerson target = addressBookSession.getPerson(targetIndex);
-            addressBook.removePerson(target);
+            addressBookSession.removePerson(targetIndex);
             return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, target));
 
         } catch (IndexOutOfBoundsException ie) {

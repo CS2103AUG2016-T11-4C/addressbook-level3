@@ -80,4 +80,27 @@ public class AddressBookSessionTest {
         assertEquals(bill, addressBookSession.getPerson(1));
         assertEquals(bob, addressBookSession.getPerson(2));
     }
+
+    @Test
+    public void removePerson_invalidIndex_throwsIndexOutOfBoundsException() throws Exception {
+        thrown.expect(IndexOutOfBoundsException.class);
+        addressBookSession.removePerson(1);
+    }
+
+    @Test
+    public void removePerson_validIndex_removesCorrectPerson() throws Exception {
+        final Person bob = generatePersonWithName("Bob");
+        final Person bill = generatePersonWithName("Bill");
+        addressBook.addPerson(bob);
+        addressBook.addPerson(bill);
+        // Note that the lastShownList reverses the order of persons, to test that
+        // addressBookSession uses the indexes of the lastShownList
+        ReadOnlyPerson[] lastShownList = { bill, bob };
+        addressBookSession.setLastShownList(Arrays.asList(lastShownList));
+        addressBookSession.removePerson(2);
+        final ReadOnlyPerson[] expectedAB = { bill };
+        assertEquals(Arrays.asList(expectedAB), addressBook.getAllPersons().immutableListView());
+        // lastShownList is untouched
+        assertEquals(Arrays.asList(lastShownList), addressBookSession.getLastShownList());
+    }
 }
