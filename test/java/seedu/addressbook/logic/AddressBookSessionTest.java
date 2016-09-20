@@ -130,4 +130,26 @@ public class AddressBookSessionTest {
         // lastShownList is untouched
         assertEquals(Arrays.asList(lastShownList), addressBookSession.getLastShownList());
     }
+
+    @Test
+    public void setFilter_withPredicate_filtersLastShownList() throws Exception {
+        final Person bob = generatePersonWithName("Bob");
+        final Person bill = generatePersonWithName("Bill");
+        addressBook.addPerson(bob);
+        addressBook.addPerson(bill);
+        addressBookSession.setFilter(person -> person.getName().fullName.equals("Bob"));
+        ReadOnlyPerson[] expected = { bob };
+        assertEquals(Arrays.asList(expected), addressBookSession.getLastShownList());
+    }
+
+    @Test
+    public void setFilter_null_showsAll() throws Exception {
+        final Person bob = generatePersonWithName("Bob");
+        final Person bill = generatePersonWithName("Bill");
+        addressBook.addPerson(bob);
+        addressBook.addPerson(bill);
+        addressBookSession.setFilter(null);
+        ReadOnlyPerson[] expected = { bob, bill };
+        assertEquals(Arrays.asList(expected), addressBookSession.getLastShownList());
+    }
 }

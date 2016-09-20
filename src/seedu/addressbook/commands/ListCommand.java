@@ -19,7 +19,8 @@ public class ListCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        List<ReadOnlyPerson> allPersons = addressBook.getAllPersons().immutableListView();
+        addressBookSession.setFilter(null);
+        List<ReadOnlyPerson> allPersons = addressBookSession.getLastShownList();
         return new CommandResult(getMessageForPersonListShownSummary(allPersons), allPersons);
     }
 }

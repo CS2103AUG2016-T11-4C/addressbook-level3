@@ -3,6 +3,7 @@ package seedu.addressbook.logic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.person.Person;
@@ -21,6 +22,7 @@ import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
 public class AddressBookSession {
     private final AddressBook addressBook;
     private List<ReadOnlyPerson> lastShownList;
+    private Predicate<ReadOnlyPerson> filter;
 
     public AddressBookSession(AddressBook addressBook) {
         this.addressBook = addressBook;
@@ -39,6 +41,20 @@ public class AddressBookSession {
         // lastShownList may actually just be a view to this.lastShownList. To make sure there's no
         // clobbering of data, make a defensive copy.
         this.lastShownList = new ArrayList<>(lastShownList);
+    }
+
+    public final Predicate<ReadOnlyPerson> getFilter() {
+        return filter;
+    }
+
+    public void setFilter(Predicate<ReadOnlyPerson> filter) {
+        this.filter = filter;
+        lastShownList.clear();
+        for (Person person : addressBook.getAllPersons()) {
+            if (filter == null || filter.test(person)) {
+                lastShownList.add(person);
+            }
+        }
     }
 
     public void addPerson(Person toAdd) throws DuplicatePersonException {
