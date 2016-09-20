@@ -1,10 +1,11 @@
 package seedu.addressbook.logic;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
@@ -21,26 +22,28 @@ import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
  */
 public class AddressBookSession {
     private final AddressBook addressBook;
-    private List<ReadOnlyPerson> lastShownList;
+    private ObservableList<ReadOnlyPerson> lastShownList;
     private Predicate<ReadOnlyPerson> filter;
 
     public AddressBookSession(AddressBook addressBook) {
         this.addressBook = addressBook;
-        this.lastShownList = new ArrayList<>();
+        this.lastShownList = FXCollections.observableArrayList();
     }
 
     public final AddressBook getAddressBook() {
         return addressBook;
     }
 
-    public final List<ReadOnlyPerson> getLastShownList() {
-        return Collections.unmodifiableList(lastShownList);
+    public final ObservableList<ReadOnlyPerson> getLastShownList() {
+        return FXCollections.unmodifiableObservableList(lastShownList);
     }
 
     void setLastShownList(List<? extends ReadOnlyPerson> lastShownList) {
         // lastShownList may actually just be a view to this.lastShownList. To make sure there's no
         // clobbering of data, make a defensive copy.
-        this.lastShownList = new ArrayList<>(lastShownList);
+        final List<ReadOnlyPerson> newLastShownList = new ArrayList<>(lastShownList);
+        this.lastShownList.clear();
+        this.lastShownList.addAll(newLastShownList);
     }
 
     public final Predicate<ReadOnlyPerson> getFilter() {
