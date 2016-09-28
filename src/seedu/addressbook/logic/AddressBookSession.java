@@ -10,6 +10,7 @@ import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniquePersonList.DuplicatePersonException;
+import seedu.addressbook.data.person.UniquePersonList.NoSuchPersonException;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 
 import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
@@ -84,5 +85,16 @@ public class AddressBookSession {
     public void clear() {
         addressBook.clear();
         lastShownList.clear();
+    }
+
+    public void editPerson(Person toEdit) throws NoSuchPersonException {
+        final Person target = addressBook.findPerson(toEdit);
+        addressBook.editPerson(toEdit);
+        if (target != null) {
+            final int index = lastShownList.indexOf(target);
+            if (index >= 0) {
+                lastShownList.set(index, target);
+            }
+        }
     }
 }

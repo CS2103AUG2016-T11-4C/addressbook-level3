@@ -66,7 +66,7 @@ public class EditCommand extends Command {
 	@Override
 	public CommandResult execute() {
 		try {
-			addressBook.editPerson(toEdit);
+			addressBookSession.editPerson(toEdit);
 			return new CommandResult(String.format(MESSAGE_SUCCESS, toEdit));
 		} catch (UniquePersonList.NoSuchPersonException e) {
 			return new CommandResult(MESSAGE_NO_SUCH_PERSON);

@@ -94,7 +94,11 @@ public class AddressBook {
     	syncTagsWithMasterList(toEdit);
     	allPersons.edit(toEdit);
     }
-    
+
+    public Person findPerson(Person target) {
+        return allPersons.find(target);
+    }
+
     /**
      * Adds a tag to the list of tags present in the address book.
      *
