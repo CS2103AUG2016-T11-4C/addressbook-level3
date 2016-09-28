@@ -1,6 +1,5 @@
 package seedu.addressbook.data.person;
 
-import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.data.tag.UniqueTagList;
 
 /**
@@ -54,10 +53,7 @@ public interface ReadOnlyPerson {
             builder.append(detailIsPrivate);
         }
         builder.append(getAddress())
-                .append(" Tags: ");
-        for (Tag tag : getTags()) {
-            builder.append(tag);
-        }
+                .append(" Tags: ").append(getTags());
         return builder.toString();
     }
 
@@ -76,10 +72,7 @@ public interface ReadOnlyPerson {
         if (!getAddress().isPrivate()) {
             builder.append(" Address: ").append(getAddress());
         }
-        builder.append(" Tags: ");
-        for (Tag tag : getTags()) {
-            builder.append(tag);
-        }
+        builder.append(" Tags: ").append(getTags());
         return builder.toString();
     }
 }
