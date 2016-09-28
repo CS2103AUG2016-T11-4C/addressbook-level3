@@ -32,25 +32,11 @@ public class FindCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        final List<ReadOnlyPerson> personsFound = getPersonsWithNameContainingAnyKeyword(keywords);
+        addressBookSession.setFilter(person -> {
+            final Set<String> wordsInName = new HashSet<>(person.getName().getWordsInName());
+            return !Collections.disjoint(wordsInName,  keywords);
+        });
+        final List<ReadOnlyPerson> personsFound = addressBookSession.getLastShownList();
         return new CommandResult(getMessageForPersonListShownSummary(personsFound), personsFound);
     }
-
-    /**
-     * Retrieve all persons in the address book whose names contain some of the specified keywords.
-     *
-     * @param keywords for searching
-     * @return list of persons found
-     */
-    private List<ReadOnlyPerson> getPersonsWithNameContainingAnyKeyword(Set<String> keywords) {
-        final List<ReadOnlyPerson> matchedPersons = new ArrayList<>();
-        for (ReadOnlyPerson person : addressBook.getAllPersons()) {
-            final Set<String> wordsInName = new HashSet<>(person.getName().getWordsInName());
-            if (!Collections.disjoint(wordsInName, keywords)) {
-                matchedPersons.add(person);
-            }
-        }
-        return matchedPersons;
-    }
-
 }
