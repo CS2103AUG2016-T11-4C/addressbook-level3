@@ -2,6 +2,7 @@ package seedu.addressbook.data.person;
 
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.DuplicateDataException;
+import seedu.addressbook.data.exception.NoSuchDataException;
 
 import java.util.*;
 
@@ -18,6 +19,15 @@ public class UniquePersonList implements Iterable<Person> {
      */
     public static class DuplicatePersonException extends DuplicateDataException {
         protected DuplicatePersonException() {
+            super("Operation would result in duplicate persons");
+        }
+    }
+    
+    /**
+     * Signals that an operation performs on a person that does not exist in the address book.
+     */
+    public static class NoSuchPersonException extends NoSuchDataException {
+        protected NoSuchPersonException() {
             super("Operation would result in duplicate persons");
         }
     }
@@ -93,6 +103,22 @@ public class UniquePersonList implements Iterable<Person> {
         }
         internalList.add(toAdd);
     }
+    
+    /**
+     * Edits a person in the list.
+     * 
+     * @throws NoSuchPersonException 
+     */    
+    public void edit(Person toEdit) throws NoSuchPersonException {
+    	Person personInTheList = this.find(toEdit);
+    	if (personInTheList != null) {
+    		personInTheList.updateInformation(toEdit.getName(),
+    				toEdit.getPhone(), toEdit.getEmail(), toEdit.getAddress(), 
+    				toEdit.getTags());
+    	} else {
+    		throw new NoSuchPersonException();
+    	}
+    }
 
     /**
      * Removes the equivalent person from the list.
@@ -111,6 +137,19 @@ public class UniquePersonList implements Iterable<Person> {
      */
     public void clear() {
         internalList.clear();
+    }
+    
+    /**
+     *  Find a person in the list
+     */
+    public Person find(Person target) {
+		Person result = null;
+    	for(Person p : this.internalList) {
+			if(p.getName().equals(target.getName())) {
+				result = p;
+			}
+		}
+    	return result;
     }
 
     @Override
