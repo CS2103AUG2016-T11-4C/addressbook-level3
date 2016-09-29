@@ -17,8 +17,8 @@ import java.util.*;
  */
 public class AddressBook {
 
-    private final UniquePersonList allPersons;
-    private final UniqueTagList allTags; // can contain tags not attached to any person
+    private UniquePersonList allPersons;
+    private UniqueTagList allTags; // can contain tags not attached to any person
 
     public static AddressBook empty() {
         return new AddressBook();
@@ -157,5 +157,14 @@ public class AddressBook {
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(allPersons, allTags);
+    }
+    /**
+     * Resets this addressbook to a certain state
+     * @param allPersons
+     * @param allTags
+     */
+    public void reset(UniquePersonList allPersons, UniqueTagList allTags){
+    	this.allPersons=allPersons;
+    	this.allTags=allTags;
     }
 }

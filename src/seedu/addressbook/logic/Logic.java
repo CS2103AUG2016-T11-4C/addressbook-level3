@@ -1,15 +1,19 @@
 package seedu.addressbook.logic;
 
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.CommandResult;
+import seedu.addressbook.commands.UndoCommand;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.parser.Parser;
+import seedu.addressbook.storage.Storage;
 import seedu.addressbook.storage.StorageFile;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Stack;
 
 /**
  * Represents the main Logic of the AddressBook.
@@ -17,9 +21,15 @@ import java.util.Optional;
 public class Logic {
 
 
-    private StorageFile storage;
+    private Storage storage;
     private AddressBook addressBook;
-
+    
+    public static Stack <AddressBook> undoneStates = new Stack<AddressBook>();
+    public static Stack<Command> undoneCommands=new Stack<Command>();
+    
+    public  final static Stack<AddressBook> stateStack=new Stack<AddressBook>();//a stack of past address book states
+    public static final Stack<Command> modifyingDataCommandHistory=new Stack<Command>();
+    
     /** The list of person shown to the user most recently.  */
     private List<? extends ReadOnlyPerson> lastShownList = Collections.emptyList();
 
@@ -28,12 +38,12 @@ public class Logic {
         setAddressBook(storage.load());
     }
 
-    Logic(StorageFile storageFile, AddressBook addressBook){
+    Logic(Storage storageFile, AddressBook addressBook){
         setStorage(storageFile);
         setAddressBook(addressBook);
     }
 
-    void setStorage(StorageFile storage){
+    void setStorage(Storage storage){
         this.storage = storage;
     }
 
@@ -84,11 +94,27 @@ public class Logic {
      */
     private CommandResult execute(Command command) throws Exception {
         command.setData(addressBook, lastShownList);
+        if(command.modifiesData()){
+        	recordStateBeforeChange(addressBook, command);
+        	undoneCommands=new Stack<Command>();
+        	undoneStates = new Stack<AddressBook>(); 
+        }
         CommandResult result = command.execute();
         storage.save(addressBook);
         return result;
     }
-
+    /**
+     * Saves a copy of the addressBook before change
+     * @param addressBook
+     * @param command
+     */
+    private void recordStateBeforeChange(AddressBook addressBook, Command command){
+    	AddressBook state = new AddressBook(addressBook.getAllPersons(), addressBook.getAllTags());
+    	stateStack.push(state);
+    	modifyingDataCommandHistory.push(command);
+    }
+    
+   
     /** Updates the {@link #lastShownList} if the result contains a list of Persons. */
     private void recordResult(CommandResult result) {
         final Optional<List<? extends ReadOnlyPerson>> personList = result.getRelevantPersons();

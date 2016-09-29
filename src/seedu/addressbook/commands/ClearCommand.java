@@ -10,6 +10,8 @@ public class ClearCommand extends Command {
             + "Example: " + COMMAND_WORD;
 
     public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
+    
+    public static boolean modifiesData = true;
 
     public ClearCommand() {}
 
@@ -19,4 +21,18 @@ public class ClearCommand extends Command {
         addressBook.clear();
         return new CommandResult(MESSAGE_SUCCESS);
     }
+
+
+	@Override
+	public boolean modifiesData() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+
+	@Override
+	public String getCommandWord() {
+		// TODO Auto-generated method stub
+		return COMMAND_WORD;
+	}
 }
