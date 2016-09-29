@@ -18,7 +18,8 @@ public class ViewCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_VIEW_PERSON_DETAILS = "Viewing person: %1$s";
-
+    
+    public boolean modifiesData = false;
 
     public ViewCommand(int targetVisibleIndex) {
         super(targetVisibleIndex);
@@ -37,5 +38,19 @@ public class ViewCommand extends Command {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
     }
+
+
+	@Override
+	public boolean modifiesData() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public String getCommandWord() {
+		// TODO Auto-generated method stub
+		return COMMAND_WORD;
+	}
 
 }

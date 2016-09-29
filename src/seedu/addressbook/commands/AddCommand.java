@@ -25,6 +25,7 @@ public class AddCommand extends Command {
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
 
     private final Person toAdd;
+    public static boolean modifiesData = true;
 
     /**
      * Convenience constructor using raw values.
@@ -66,5 +67,17 @@ public class AddCommand extends Command {
             return new CommandResult(MESSAGE_DUPLICATE_PERSON);
         }
     }
+
+	@Override
+	public boolean modifiesData() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public String getCommandWord() {
+		// TODO Auto-generated method stub
+		return COMMAND_WORD;
+	}
 
 }

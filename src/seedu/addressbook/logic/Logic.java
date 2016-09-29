@@ -1,5 +1,6 @@
 package seedu.addressbook.logic;
 
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.CommandResult;
 import seedu.addressbook.data.AddressBook;
@@ -10,6 +11,7 @@ import seedu.addressbook.storage.StorageFile;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Stack;
 
 /**
  * Represents the main Logic of the AddressBook.
@@ -19,7 +21,10 @@ public class Logic {
 
     private StorageFile storage;
     private AddressBook addressBook;
-
+    
+    public  final static Stack<AddressBook> stateStack=new Stack<AddressBook>();//a stack of past address book states
+    public static final Stack<Command> modifyingDataCommandHistory=new Stack<Command>();
+    
     /** The list of person shown to the user most recently.  */
     private List<? extends ReadOnlyPerson> lastShownList = Collections.emptyList();
 
@@ -84,11 +89,25 @@ public class Logic {
      */
     private CommandResult execute(Command command) throws Exception {
         command.setData(addressBook, lastShownList);
+        if(command.modifiesData()){
+        	recordStateBeforeChange(addressBook, command);
+        }
         CommandResult result = command.execute();
         storage.save(addressBook);
         return result;
     }
-
+    /**
+     * Saves a copy of the addressBook before change
+     * @param addressBook
+     * @param command
+     */
+    private void recordStateBeforeChange(AddressBook addressBook, Command command){
+    	AddressBook state = new AddressBook(addressBook.getAllPersons(), addressBook.getAllTags());
+    	stateStack.push(state);
+    	modifyingDataCommandHistory.push(command);
+    }
+    
+   
     /** Updates the {@link #lastShownList} if the result contains a list of Persons. */
     private void recordResult(CommandResult result) {
         final Optional<List<? extends ReadOnlyPerson>> personList = result.getRelevantPersons();

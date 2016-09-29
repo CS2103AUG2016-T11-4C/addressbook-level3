@@ -20,6 +20,8 @@ public class HelpCommand extends Command {
             + "\n" + ViewAllCommand.MESSAGE_USAGE
             + "\n" + HelpCommand.MESSAGE_USAGE
             + "\n" + ExitCommand.MESSAGE_USAGE;
+    
+    public final boolean modifiesData = false;
 
     public HelpCommand() {}
 
@@ -27,4 +29,16 @@ public class HelpCommand extends Command {
     public CommandResult execute() {
         return new CommandResult(MESSAGE_ALL_USAGES);
     }
+
+	@Override
+	public boolean modifiesData() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getCommandWord() {
+		// TODO Auto-generated method stub
+		return COMMAND_WORD;
+	}
 }

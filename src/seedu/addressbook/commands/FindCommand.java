@@ -18,6 +18,8 @@ public class FindCommand extends Command {
             + "Example: " + COMMAND_WORD + " alice bob charlie";
 
     private final Set<String> keywords;
+    
+    public static boolean modifiesData = false;
 
     public FindCommand(Set<String> keywords) {
         this.keywords = keywords;
@@ -52,5 +54,17 @@ public class FindCommand extends Command {
         }
         return matchedPersons;
     }
+
+	@Override
+	public boolean modifiesData() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getCommandWord() {
+		// TODO Auto-generated method stub
+		return COMMAND_WORD;
+	}
 
 }
